@@ -1,0 +1,36 @@
+{
+  "name": "http2-spdy-server",
+  "version": "0.0.1",
+  "description": "Simple http2/spdy static server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "DEBUG=* node-dev index.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slavaGanzin/static-http2-server.git"
+  },
+  "keywords": [
+    "http",
+    "server",
+    "http2",
+    "spdy"
+  ],
+  "author": "slava.ganzin@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slavaGanzin/static-http2-server/issues"
+  },
+  "homepage": "https://github.com/slavaGanzin/static-http2-server#readme",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "spdy": "^3.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2",
+    "yadda": "^0.21.0"
+  }
+}
