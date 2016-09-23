@@ -12,7 +12,7 @@ const debug       = require('debug')
 const opn         = require('opn')
 
 const {
-  port, address, cert, key, silent, push, log, cors, open, ssl,
+  port, address, cert, key, silent, push, log, cors, open, ssl, gzip,
   args: [
     path = '.'
   ]
@@ -28,8 +28,8 @@ let fileByRefferer = {}
 const servePush = (req, res, next) => {
   if (fileByRefferer[req.url]) {
     fileByRefferer[req.url].forEach( file => {
-      const stream = res.push(file, { });
-      stream.on('error', pushError);
+      const stream = res.push(file, { })
+      stream.on('error', pushError)
       fs.readFile(path+'/'+file, (e, content) => stream.end(content))
     })
   }
@@ -67,17 +67,19 @@ pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}
       plain: !ssl,
     }
   }
-  if (cors) {
-    app.use(require('cors')())
-  }
+  
   if (ssl && push) {
     app.use(servePush)
     app.use(rememberReferrers)
   }
   
+  if (cors) app.use(require('cors')())
+  if (gzip) app.use(require('compression')())
   if (!silent) app.use(require('morgan')(log))
+  
   app.use(serveStatic('.', { }))
   
-  spdy.createServer(options, app)
-  .listen(port, address, onServerStart)
+  spdy
+    .createServer(options, app)
+    .listen(port, address, onServerStart)
 })
