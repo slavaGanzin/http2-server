@@ -1,7 +1,7 @@
 const commander = require('commander')
 
 module.exports = commander
-  .version('0.0.1')
+  .version(require('./package.json').version)
   .usage('[path] [options]')
   .option(
     '-p, --port [8080]',

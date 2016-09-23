@@ -1,6 +1,6 @@
 {
   "name": "http2-spdy-server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Simple http2/spdy static server",
   "main": "index.js",
   "scripts": {
