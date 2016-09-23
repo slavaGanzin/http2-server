@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 
 const express     = require('express')
@@ -10,7 +11,6 @@ const pem         = require('pem')
 const http        = require('http')
 const debug       = require('debug')
 const opn         = require('opn')
-const colors      = require('colors/safe')
 
 const {
   port, address, cert, key, silent, push, log, cors, open, ssl,
@@ -48,9 +48,8 @@ const rememberReferrers = (req, res, next) => {
 }
 const onServerStart = () => {
   console.log(
-    `${ssl ? colors.green('Http2') : colors.yellow('Http')} server started on `
-    + colors.bold(`${protocol}://${address}:${port}`)
-    + `\nServe static from ${path}`
+    `${ssl ? 'Http2/Https' : 'Http'} server started on ${protocol}://${address}:${port}
+Serve static from ${path}`
   )
   if (process.argv.indexOf('-o') > 1) {
     opn(`${protocol}://${address}:${port}`, {
