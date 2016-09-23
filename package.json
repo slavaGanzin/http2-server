@@ -1,6 +1,6 @@
 {
   "name": "static-http2-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple http2/spdy static server",
   "scripts": {
     "start": "DEBUG=* node-dev http2-server.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/slavaGanzin/static-http2-server.git"
+    "url": "git+https://github.com/slavaGanzin/http2-server.git"
   },
   "keywords": [
     "http",
@@ -19,9 +19,9 @@
   "author": "slava.ganzin@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/slavaGanzin/static-http2-server/issues"
+    "url": "https://github.com/slavaGanzin/http2-server/issues"
   },
-  "homepage": "https://github.com/slavaGanzin/static-http2-server#readme",
+  "homepage": "https://github.com/slavaGanzin/http2-server#readme",
   "dependencies": {
     "commander": "^2.9.0",
     "cors": "^2.8.1",
