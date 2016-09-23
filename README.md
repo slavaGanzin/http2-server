@@ -1,7 +1,7 @@
-*Stop bundling your css/js and enjoy [http2](https://http2.github.io/)*
+*Stop bundling your css/js and enjoy [HTTP2](https://http2.github.io/) and [PUSH_PROMISE](http://httpwg.org/specs/rfc7540.html#PUSH_PROMISE)*
 
-#static-http2-server
-Simple http2 server with interface similiar to [http-server](https://github.com/indexzero/http-server) using [express](https://github.com/expressjs/express) & [node-spdy](https://github.com/indutny/node-spdy)
+#http2-server
+Simple HTTP2 server with interface similiar to [http-server](https://github.com/indexzero/http-server) using [express](https://github.com/expressjs/express) & [node-spdy](https://github.com/indutny/node-spdy)
 
 #Installation
 ```
