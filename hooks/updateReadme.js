@@ -1,6 +1,6 @@
 const fs = require('fs')
 const readme = 'README.md'
-require('./options')
+require('../options')
 .outputHelp(text => {
   text = [
     "#Usage","\n```\n",
