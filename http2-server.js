@@ -52,7 +52,7 @@ Serve static from ${path}`
   )
   if (process.argv.indexOf('-o') > 1) {
     opn(`${protocol}://${address}:${port}`, {
-      app: open.split(' '),
+      app: open.split(/\s-+/),
     })
     .catch(x => console.error(x.toString().replace('ENOENT','')))
   }
