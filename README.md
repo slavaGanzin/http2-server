@@ -3,11 +3,16 @@
 #static-http2-server
 Simple http2 server with interface similiar to [http-server](https://github.com/indexzero/http-server) using [express](https://github.com/expressjs/express) & [node-spdy](https://github.com/indutny/node-spdy)
 
+#Installation
+```
+  sudo npm install -g static-http2-server
+```
+
 #Usage
 
 ```
 
-http-server [path] [options]
+http2-server [path] [options]
 
   Options:
 

@@ -4,7 +4,7 @@ require('./options')
 .outputHelp(text => {
   text = [
     "#Usage","\n```\n",
-    text.replace(/\s+Usage: updateReadme/,'http-server'),
+    text.replace(/\s+Usage: updateReadme/,'http2-server'),
     "```",'',"#Allow"
   ].join("\n")
   
