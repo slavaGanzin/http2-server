@@ -5,12 +5,12 @@ require('./options')
   text = [
     "#Usage","\n```\n",
     text.replace(/\s+Usage: updateReadme/,'http2-server'),
-    "```",'',"#Allow"
+    "```",'',"#Usage"
   ].join("\n")
   
   fs.writeFileSync(readme,
     String(fs.readFileSync(readme, 'utf8'))
-    .replace(/#Usage(.*\n)+#Allow/gim,
+    .replace(/#Usage(.*\n)+#Usage/gim,
       text)
   )
   return ''

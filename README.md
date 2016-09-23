@@ -32,5 +32,18 @@ http2-server [path] [options]
 
 ```
 
+#Usage as a dependency in your project
+
+```
+npm install static-http2-server --save
+```
+```package.json
+...
+  "scripts": {
+    "start": "node_modules/.bin/http2-server -o",
+  },
+...  
+```
+
 #Allow insecure localhost https certificate:
 * Chrome: ```chrome://flags/#allow-insecure-localhost```
