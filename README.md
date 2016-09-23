@@ -28,4 +28,4 @@ http-server [path] [options]
 ```
 
 #Allow insecure localhost https certificate:
-* [Chrome](chrome://flags/#allow-insecure-localhost)
+* Chrome: ```chrome://flags/#allow-insecure-localhost```
