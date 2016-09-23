@@ -1,10 +1,9 @@
 {
   "name": "static-http2-server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Simple http2/spdy static server",
   "scripts": {
-    "start": "DEBUG=* node-dev http2-server.js",
-    "test": "node test.js"
+    "start": "DEBUG=* node-dev http2-server.js"
   },
   "repository": {
     "type": "git",
@@ -31,10 +30,6 @@
     "opn": "^4.0.2",
     "pem": "^1.8.3",
     "spdy": "^3.4.2"
-  },
-  "devDependencies": {
-    "mocha": "^3.0.2",
-    "yadda": "^0.21.0"
   },
   "bin": {
     "http2-server": "http2-server.js"

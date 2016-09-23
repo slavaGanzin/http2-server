@@ -21,13 +21,12 @@ http2-server [path] [options]
     -p, --port [8080]           port to use
     -a, --address [127.0.0.1]   address to use
     --no-push                   disable PUSH_PROMISE
-    -o, --open [app]            open default app after starting the server
-        -o
+    -o, --open [xdg-open]       open default app after starting the server
         -o firefox
         -o "google-chrome --incognito"
         -o wget
     
-    -l, --log                   log format (dev|combined|common|short|tiny)
+    -l, --log [dev]             log format (dev|combined|common|short|tiny)
         https://github.com/expressjs/morgan#predefined-formats
     
     -s, --silent                suppress log messages from output

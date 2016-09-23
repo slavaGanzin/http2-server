@@ -15,9 +15,8 @@ module.exports = commander
     '--no-push',
     'disable PUSH_PROMISE')
   .option(
-    '-o, --open [app]',
+    '-o, --open [xdg-open]',
     `open default app after starting the server
-    -o
     -o firefox
     -o "google-chrome --incognito"
     -o wget
@@ -25,7 +24,7 @@ module.exports = commander
     '')
     
   .option(
-    '-l, --log',
+    '-l, --log [dev]',
     `log format (dev|combined|common|short|tiny)
     https://github.com/expressjs/morgan#predefined-formats
 `,
