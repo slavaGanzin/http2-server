@@ -4,7 +4,10 @@
 Simple http2 server with interface similiar to [http-server](https://github.com/indexzero/http-server) using [express](https://github.com/expressjs/express) & [node-spdy](https://github.com/indutny/node-spdy)
 
 #Usage
-```http-server [path] [options]
+
+```
+
+http-server [path] [options]
 
   Options:
 
@@ -23,5 +26,6 @@ Simple http2 server with interface similiar to [http-server](https://github.com/
 
 
 ```
+
 #Allow insecure localhost https certificate:
 * [Chrome](chrome://flags/#allow-insecure-localhost)
