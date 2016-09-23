@@ -9,12 +9,20 @@ const app         = express()
 const pem         = require('pem')
 const http        = require('http')
 const debug       = require('debug')
-const pushDebug   = debug('push')
 const opn         = require('opn')
+const colors      = require('colors/safe')
 
 const {
-  port, address, cert, key, silent, push, log, cors, open
+  port, address, cert, key, silent, push, log, cors, open, ssl,
+  args: [
+    path = '.'
+  ]
 } = require('./options')
+
+const [pushDebug,    pushError] = [
+      'http2:push', 'http2:push:error'
+].map(debug)
+const protocol = ssl ? 'https' : 'http'
 
 let fileByRefferer = {}
 
@@ -22,8 +30,8 @@ const servePush = (req, res, next) => {
   if (fileByRefferer[req.url]) {
     fileByRefferer[req.url].forEach( file => {
       const stream = res.push(file, { });
-      stream.on('error', pushDebug);
-      fs.readFile('./'+file, (e, content) => stream.end(content))
+      stream.on('error', pushError);
+      fs.readFile(path+'/'+file, (e, content) => stream.end(content))
     })
   }
   next()
@@ -39,31 +47,36 @@ const rememberReferrers = (req, res, next) => {
   next()
 }
 const onServerStart = () => {
-  console.log(`Http2 server started on ${address}:${port}`)
+  console.log(
+    `${ssl ? colors.green('Http2') : colors.yellow('Http')} server started on `
+    + colors.bold(`${protocol}://${address}:${port}`)
+    + `\nServe static from ${path}`
+  )
   if (process.argv.indexOf('-o') > 1) {
-    opn(`https://${address}:${port}`, {app: open.split(' ')})
+    opn(`${protocol}://${address}:${port}`, {
+      app: open.split(' '),
+    })
+    .catch(x => console.error(x.toString().replace('ENOENT','')))
   }
 }
 
-pem.createCertificate({days:1, selfSigned:true}, (err, keys) => {
+pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}) => {
   const options = {
-    key:  key  || keys.serviceKey,
-    cert: cert || keys.certificate,
+    key:  key  || serviceKey,
+    cert: cert || certificate,
+    ssl,
     spdy: {
-      plain: false,
+      plain: !ssl,
     }
   }
   if (cors) {
     app.use(require('cors')())
   }
-  if (push) {
+  if (ssl && push) {
     app.use(servePush)
     app.use(rememberReferrers)
   }
-  // app.get('*', ({secure, hostname, url},res, next) => {
-  //   if (!secure) return res.redirect(`https://${hostname}:${port}${url}`)
-  //   next()
-  // })
+  
   if (!silent) app.use(require('morgan')(log))
   app.use(serveStatic('.', { }))
   
