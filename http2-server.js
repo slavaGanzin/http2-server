@@ -2,13 +2,7 @@
 'use strict'
 process.env.DEBUG = process.env.DEBUG || 'http2,http2:error*'
 
-const express     = require('express')
-const serveStatic = require('serve-static')
-const spdy        = require('spdy')
-const fs          = require('fs')
-const app         = express()
-const pem         = require('pem')
-const http        = require('http')
+const app         = require('express')()
 const debug       = require('debug')
 
 const {
@@ -28,7 +22,7 @@ Serve static from ${path}`)
   require('./open')({open, protocol, address, port})
 }
 
-pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}) => {
+require('pem').createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}) => {
   const options = {
     key:  key  || serviceKey,
     cert: cert || certificate,
@@ -42,10 +36,10 @@ pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}
   if (ssl && push)  require('./naivePush')({app, path})
   if (!silent)      app.use(require('morgan')(log))
   
-  app.use(serveStatic(path, { index, maxAge, cacheControl: cache }))
+  app.use(require('serve-static')(path, { index, maxAge, cacheControl: cache }))
   
   if (autoindex)    app.use(require('serve-index')(path))
   
-  spdy.createServer(options, app)
+  require('spdy').createServer(options, app)
     .listen(port, address, onServerStart)
 })
