@@ -12,7 +12,7 @@ const http        = require('http')
 const debug       = require('debug')
 
 const {
-  port, address, cert, key, silent, push,
+  port, address, cert, key, silent, push, cache, maxAge,
   log, cors, open, ssl, gzip, autoindex, index,
   args: [
     path = '.'
@@ -42,7 +42,7 @@ pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}
   if (ssl && push)  require('./naivePush')({app, path})
   if (!silent)      app.use(require('morgan')(log))
   
-  app.use(serveStatic(path, { index }))
+  app.use(serveStatic(path, { index, maxAge, cacheControl: cache }))
   
   if (autoindex)    app.use(require('serve-index')(path))
   

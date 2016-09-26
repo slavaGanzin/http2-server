@@ -22,6 +22,10 @@ http2-server [path] [options]
     -V, --version               output the version number
     -p, --port [8080]           port to use
     -a, --address [127.0.0.1]   address to use
+    -C, --no-cache              disable cache
+    -m, --maxAge [0]            cache maxAge in ms acceptable string
+        https://github.com/zeit/ms
+    
     -P, --no-push               disable naive PUSH_PROMISE
     -o, --open [xdg-open]       open default app after starting the server
         -o firefox

@@ -12,6 +12,14 @@ module.exports = commander
     'address to use',
     '127.0.0.1'
   ).option(
+    '-C, --no-cache',
+    'disable cache'
+  ).option(
+    '-m, --maxAge [0]',
+    `cache maxAge in ms acceptable string
+    https://github.com/zeit/ms
+`
+  ).option(
     '-P, --no-push',
     'disable naive PUSH_PROMISE'
   ).option(
@@ -57,6 +65,5 @@ module.exports = commander
     'Disable auto index'
   ).parse(process.argv)
   
-// -c Set cache time (in seconds) for cache-control max-age header, e.g. -c10 for 10 seconds (defaults to '3600'). To disable caching, use -c-1.
 // -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com
 // -r or --robots Provide a /robots.txt (whose content defaults to 'User-agent: *\nDisallow: /')
