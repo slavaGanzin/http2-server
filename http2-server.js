@@ -6,32 +6,29 @@ const app         = require('express')()
 const debugLog    = require('debug')('http2')
 
 const {
-  port, address, cert, key, silent, push, cache, maxAge,
-  log, cors, open, ssl, gzip, autoindex, index,
+  port, address, silent, push, cache, maxAge,
+  log, cors, ssl, gzip, autoindex, index, URL, serverType,
   args: [
     path = '.'
   ]
 } = require('./options')
 
-const protocol = ssl ? 'https' : 'http'
-
 const onServerStart = () => {
-  debugLog(`${ssl ? 'Http2/Https' : 'Http'} server started on ${protocol}://${address}:${port}`)
+  debugLog(`${serverType} server started on ${URL}`)
   debugLog(`Serve static from ${path}`)
   
-  require('./open')({open, protocol, address, port})
+  require('./open')()
 }
 
 if (cors)         app.use(require('cors')())
 if (gzip)         app.use(require('compression')())
-if (ssl && push)  require('./naivePush')({app, path})
+if (ssl && push)  require('./naivePush').map(x => app.use(x))
 if (!silent)      app.use(require('morgan')(log))
 
 app.use(require('serve-static')(path, { index, maxAge, cacheControl: cache }))
 
 if (autoindex)    app.use(require('serve-index')(path))
 
-const sslOptions = require('./sslOptions')({key, cert, ssl})
-
-require('spdy').createServer(sslOptions, app)
+require('spdy')
+  .createServer(require('./sslOptions'), app)
   .listen(port, address, onServerStart)

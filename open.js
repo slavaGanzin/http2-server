@@ -1,12 +1,16 @@
 const opn         = require('opn')
-const debug       = require('debug')
+const errorOpn    = require('debug')('http2:error:opn')
 
-module.exports = ({open, protocol, address, port}) => {
-  if (process.argv.indexOf('-o') > 1) {
-    opn(`${protocol}://${address}:${port}`, {
-      app: open.split(/\s-+/),
-    })
-    .catch(error => debug('http2:error:opn')
-      (error.toString().replace('ENOENT','')))
-  }
+const {
+  open, protocol, address, port
+} = require('./options')
+
+module.exports = () => {
+  if (! open) return
+  
+  const app = typeof open == 'string'
+    ? open.match(/(\w+|-+\w+)/g) : null
+  
+  opn(`${protocol}://${address}:${port}`, { app })
+  .catch(error => errorOpn(error.toString().replace('ENOENT','')))
 }

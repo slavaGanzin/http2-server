@@ -1,6 +1,6 @@
 const commander = require('commander')
 
-module.exports = commander
+const opts = commander
   .version(require('./package.json').version)
   .usage('[path] [options]')
   .option(
@@ -28,8 +28,7 @@ module.exports = commander
     -o firefox
     -o "google-chrome --incognito"
     -o "curl --insecure"
-`,
-    ''
+`
   ).option(
     '-l, --log [dev]',
     `log format (dev|combined|common|short|tiny)
@@ -65,6 +64,11 @@ module.exports = commander
     'Disable auto index'
   ).parse(process.argv)
   
+opts.protocol   = opts.ssl ? 'https' : 'http'
+opts.serverType = opts.ssl ? 'Http2/Https' : 'Http'
+opts.URL        = `${opts.protocol}://${opts.address}:${opts.port}`
+                
+module.exports = opts
 // -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com
 // http://stackoverflow.com/questions/31100474/accessing-non-ssl-socket-io-nodejs-server-from-ssl-apache-request-same-host
 // -r or --robots Provide a /robots.txt (whose content defaults to 'User-agent: *\nDisallow: /')

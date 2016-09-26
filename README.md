@@ -8,7 +8,7 @@ Simple HTTP2/SPDY server similiar to [http-server](https://github.com/indexzero/
   sudo npm install -g static-http2-server
 ```
 #Naive PUSH_PROMISE
-By default http2-server match static resources with their Referer header (for example '/') and will [server push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) them in couple with response, when refred resource (e.g. index.html) would be requested next time
+By default http2-server match static resources with their Referer header (for example '/') and will [server push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) them coupled with response, when refered resource (e.g. index.html) would be requested next time
 
 #Usage
 
