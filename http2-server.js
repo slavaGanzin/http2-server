@@ -13,7 +13,7 @@ const debug       = require('debug')
 const opn         = require('opn')
 
 const {
-  port, address, cert, key, silent, push, log, cors, open, ssl, gzip,
+  port, address, cert, key, silent, push, log, cors, open, ssl, gzip, autoindex,
   args: [
     path = '.'
   ]
@@ -42,10 +42,11 @@ pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}
       plain: !ssl,
     }
   }
-  if (cors) app.use(require('cors')())
-  if (gzip) app.use(require('compression')())
-  if (ssl && push) require('./naivePush')(app)
-  if (!silent) app.use(require('morgan')(log))
+  if (cors)         app.use(require('cors')())
+  if (gzip)         app.use(require('compression')())
+  if (ssl && push)  require('./naivePush')({app, path})
+  if (!silent)      app.use(require('morgan')(log))
+  if (autoindex)    app.use(require('serve-index')(path))
   
   app.use(serveStatic(path, { }))
   

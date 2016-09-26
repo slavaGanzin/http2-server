@@ -7,28 +7,29 @@ const [pushDebug,    pushError] = [
 
 let fileByRefferer = {}
 
-const servePush = (req, res, next) => {
-  if (fileByRefferer[req.url]) {
-    fileByRefferer[req.url].forEach( file => {
-      const stream = res.push(file, { });
-      stream.on('error', pushError);
-      fs.readFile(path+'/'+file, (e, content) => stream.end(content))
-    })
+module.exports = ({app,path}) => {
+  
+  const servePush = (req, res, next) => {
+    if (fileByRefferer[req.url]) {
+      fileByRefferer[req.url].forEach( file => {
+        const stream = res.push(file, { });
+        stream.on('error', pushError);
+        fs.readFile(path+'/'+file, (e, content) => stream.end(content))
+      })
+    }
+    next()
   }
-  next()
-}
-
-const rememberReferrers = (req, res, next) => {
-  if (req.headers.referer) {
-    const referer = req.headers.referer.replace(/.*:\d*/,'')
-    pushDebug(referer, req.url)
-    if (!fileByRefferer[referer]) fileByRefferer[referer] = []
-    fileByRefferer[referer].push(req.url)
+  
+  const rememberReferrers = (req, res, next) => {
+    if (req.headers.referer) {
+      const referer = req.headers.referer.replace(/.*:\d*/,'')
+      pushDebug(referer, req.url)
+      if (!fileByRefferer[referer]) fileByRefferer[referer] = []
+      fileByRefferer[referer].push(req.url)
+    }
+    next()
   }
-  next()
-}
-
-module.exports = (app) => {
+  
   app.use(servePush)
   app.use(rememberReferrers)
 }
