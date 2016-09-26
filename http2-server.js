@@ -12,7 +12,8 @@ const http        = require('http')
 const debug       = require('debug')
 
 const {
-  port, address, cert, key, silent, push, log, cors, open, ssl, gzip, autoindex,
+  port, address, cert, key, silent, push,
+  log, cors, open, ssl, gzip, autoindex, index,
   args: [
     path = '.'
   ]
@@ -40,9 +41,10 @@ pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}
   if (gzip)         app.use(require('compression')())
   if (ssl && push)  require('./naivePush')({app, path})
   if (!silent)      app.use(require('morgan')(log))
-  if (autoindex)    app.use(require('serve-index')(path))
   
-  app.use(serveStatic(path, { }))
+  app.use(serveStatic(path, { index }))
+  
+  if (autoindex)    app.use(require('serve-index')(path))
   
   spdy.createServer(options, app)
     .listen(port, address, onServerStart)
