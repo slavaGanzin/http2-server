@@ -30,7 +30,7 @@ http2-server [path] [options]
     -o, --open [xdg-open]       open default app after starting the server
         -o firefox
         -o "google-chrome --incognito"
-        -o wget
+        -o "curl --insecure"
     
     -l, --log [dev]             log format (dev|combined|common|short|tiny)
         https://github.com/expressjs/morgan#predefined-formats
