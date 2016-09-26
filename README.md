@@ -7,6 +7,8 @@ Simple HTTP2/SPDY server similiar to [http-server](https://github.com/indexzero/
 ```
   sudo npm install -g static-http2-server
 ```
+#Naive PUSH_PROMISE
+By default http2-server match static resources with their Referer header (for example '/') and will [server push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) them in couple with response, when refred resource (e.g. index.html) would be requested next time
 
 #Usage
 
@@ -20,7 +22,7 @@ http2-server [path] [options]
     -V, --version               output the version number
     -p, --port [8080]           port to use
     -a, --address [127.0.0.1]   address to use
-    -P, --no-push               disable PUSH_PROMISE
+    -P, --no-push               disable naive PUSH_PROMISE
     -o, --open [xdg-open]       open default app after starting the server
         -o firefox
         -o "google-chrome --incognito"

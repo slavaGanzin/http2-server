@@ -13,7 +13,7 @@ module.exports = commander
     '127.0.0.1'
   ).option(
     '-P, --no-push',
-    'disable PUSH_PROMISE'
+    'disable naive PUSH_PROMISE'
   ).option(
     '-o, --open [xdg-open]',
     `open default app after starting the server
@@ -54,8 +54,7 @@ module.exports = commander
     'index.html'
   ).option(
     '-I, --no-autoindex',
-    'Disable auto index',
-    true
+    'Disable auto index'
   ).parse(process.argv)
   
 // -c Set cache time (in seconds) for cache-control max-age header, e.g. -c10 for 10 seconds (defaults to '3600'). To disable caching, use -c-1.
