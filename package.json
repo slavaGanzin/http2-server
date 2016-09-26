@@ -1,9 +1,10 @@
 {
   "name": "static-http2-server",
   "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple http2/spdy static server",
   "scripts": {
-    "start": "DEBUG=* node-dev http2-server.js"
+    "start": "node-dev http2-server.js"
   },
   "repository": {
     "type": "git",

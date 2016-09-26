@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict'
+process.env.DEBUG = process.env.DEBUG || 'http2,http2:error*'
 
 const express     = require('express')
 const serveStatic = require('serve-static')
@@ -18,43 +19,17 @@ const {
   ]
 } = require('./options')
 
-const [pushDebug,    pushError] = [
-      'http2:push', 'http2:push:error'
-].map(debug)
 const protocol = ssl ? 'https' : 'http'
 
-let fileByRefferer = {}
-
-const servePush = (req, res, next) => {
-  if (fileByRefferer[req.url]) {
-    fileByRefferer[req.url].forEach( file => {
-      const stream = res.push(file, { })
-      stream.on('error', pushError)
-      fs.readFile(path+'/'+file, (e, content) => stream.end(content))
-    })
-  }
-  next()
-}
-
-const rememberReferrers = (req, res, next) => {
-  if (req.headers.referer) {
-    const referer = req.headers.referer.replace(/.*:\d*/,'')
-    pushDebug(referer, req.url)
-    if (!fileByRefferer[referer]) fileByRefferer[referer] = []
-    fileByRefferer[referer].push(req.url)
-  }
-  next()
-}
 const onServerStart = () => {
-  console.log(
+  debug('http2')(
     `${ssl ? 'Http2/Https' : 'Http'} server started on ${protocol}://${address}:${port}
-Serve static from ${path}`
-  )
+Serve static from ${path}`)
   if (process.argv.indexOf('-o') > 1) {
     opn(`${protocol}://${address}:${port}`, {
       app: open.split(/\s-+/),
     })
-    .catch(x => console.error(x.toString().replace('ENOENT','')))
+    .catch(x => debug('http2:error:opn')(x.toString().replace('ENOENT','')))
   }
 }
 
@@ -67,19 +42,13 @@ pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}
       plain: !ssl,
     }
   }
-  
-  if (ssl && push) {
-    app.use(servePush)
-    app.use(rememberReferrers)
-  }
-  
   if (cors) app.use(require('cors')())
   if (gzip) app.use(require('compression')())
+  if (ssl && push) require('./naivePush')(app)
   if (!silent) app.use(require('morgan')(log))
   
-  app.use(serveStatic('.', { }))
+  app.use(serveStatic(path, { }))
   
-  spdy
-    .createServer(options, app)
+  spdy.createServer(options, app)
     .listen(port, address, onServerStart)
 })

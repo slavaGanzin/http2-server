@@ -22,7 +22,6 @@ module.exports = commander
     -o wget
 `,
     '')
-    
   .option(
     '-l, --log [dev]',
     `log format (dev|combined|common|short|tiny)
