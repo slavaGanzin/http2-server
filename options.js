@@ -12,8 +12,8 @@ module.exports = commander
     'address to use',
     '127.0.0.1'
   ).option(
-    '-C, --no-cache',
-    'disable cache'
+    '-c, --cache',
+    'enable cache'
   ).option(
     '-m, --maxAge [0]',
     `cache maxAge in ms acceptable string
@@ -27,7 +27,7 @@ module.exports = commander
     `open default app after starting the server
     -o firefox
     -o "google-chrome --incognito"
-    -o wget
+    -o "curl --insecure"
 `,
     ''
   ).option(
@@ -40,7 +40,7 @@ module.exports = commander
     '-s, --silent',
     'suppress log messages from output'
   ).option(
-    '-c, --cors',
+    '--cors',
     'enable CORS via the Access-Control-Allow-Origin header'
   ).option(
     '-S, --no-ssl',
@@ -66,4 +66,5 @@ module.exports = commander
   ).parse(process.argv)
   
 // -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com
+// http://stackoverflow.com/questions/31100474/accessing-non-ssl-socket-io-nodejs-server-from-ssl-apache-request-same-host
 // -r or --robots Provide a /robots.txt (whose content defaults to 'User-agent: *\nDisallow: /')
