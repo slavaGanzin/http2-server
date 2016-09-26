@@ -10,7 +10,6 @@ const app         = express()
 const pem         = require('pem')
 const http        = require('http')
 const debug       = require('debug')
-const opn         = require('opn')
 
 const {
   port, address, cert, key, silent, push, log, cors, open, ssl, gzip, autoindex,
@@ -25,12 +24,7 @@ const onServerStart = () => {
   debug('http2')(
     `${ssl ? 'Http2/Https' : 'Http'} server started on ${protocol}://${address}:${port}
 Serve static from ${path}`)
-  if (process.argv.indexOf('-o') > 1) {
-    opn(`${protocol}://${address}:${port}`, {
-      app: open.split(/\s-+/),
-    })
-    .catch(x => debug('http2:error:opn')(x.toString().replace('ENOENT','')))
-  }
+  require('./open')({open, protocol, address, port})
 }
 
 pem.createCertificate({days:1, selfSigned:true}, (err, {serviceKey, certificate}) => {
