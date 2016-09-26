@@ -10,6 +10,7 @@ Simple HTTP2/SPDY server similiar to [http-server](https://github.com/indexzero/
 #Naive PUSH_PROMISE
 By default http2-server match static resources with their Referer header (for example '/') and will [server push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) them coupled with response, when refered resource (e.g. index.html) would be requested next time
 
+
 #Usage
 
 ```
@@ -63,5 +64,13 @@ npm install static-http2-server --save
 ...  
 ```
 
-#Allow insecure localhost https certificate:
+#Accept your certificate
+```
+  http2-servert --save-certs
+
+  certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n cert/cert.crt -i cert/cert.crt
+
+```
+
+#Or allow insecure localhost https certificate:
 * Chrome: ```chrome://flags/#allow-insecure-localhost```
