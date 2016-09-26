@@ -12,7 +12,7 @@ module.exports = commander
     'address to use',
     '127.0.0.1'
   ).option(
-    '--no-push',
+    '-P, --no-push',
     'disable PUSH_PROMISE'
   ).option(
     '-o, --open [xdg-open]',
@@ -54,8 +54,6 @@ module.exports = commander
     true
   ).parse(process.argv)
   
-// -d Show directory listings (defauts to 'True')
-// -g or --gzip When enabled (defaults to 'False') it will serve ./public/some-file.js.gz in place of ./public/some-file.js when a gzipped version of the file exists and the request accepts gzip encoding.
 // -e or --ext Default file extension if none supplied (defaults to 'html')
 // -c Set cache time (in seconds) for cache-control max-age header, e.g. -c10 for 10 seconds (defaults to '3600'). To disable caching, use -c-1.
 // -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com

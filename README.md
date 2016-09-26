@@ -20,7 +20,7 @@ http2-server [path] [options]
     -V, --version               output the version number
     -p, --port [8080]           port to use
     -a, --address [127.0.0.1]   address to use
-    --no-push                   disable PUSH_PROMISE
+    -P, --no-push               disable PUSH_PROMISE
     -o, --open [xdg-open]       open default app after starting the server
         -o firefox
         -o "google-chrome --incognito"
