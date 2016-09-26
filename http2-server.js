@@ -25,10 +25,12 @@ if (gzip)         app.use(require('compression')())
 if (ssl && push)  require('./naivePush').map(x => app.use(x))
 if (!silent)      app.use(require('morgan')(log))
 
-app.use(require('serve-static')(path, { index, maxAge, cacheControl: cache }))
+app.use(require('serve-static')(path, { index, maxAge, cacheControl: !!cache }))
 
 if (autoindex)    app.use(require('serve-index')(path))
 
-require('spdy')
-  .createServer(require('./sslOptions'), app)
-  .listen(port, address, onServerStart)
+require('./ssl').then( options =>
+  require('spdy')
+    .createServer(options, app)
+    .listen(port, address, onServerStart)
+)
