@@ -2,7 +2,7 @@
 # FROM mhart/alpine-node:latest
 
 # RUN apk add openssl --update-cache
-FROM node:latest
+# FROM node:latest
 
 RUN apt-get update && apt-get install -y curl zsh
 WORKDIR /src
