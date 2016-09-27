@@ -5,6 +5,13 @@ const {
 } = require('./options')
 
 const readCertificates = () => {
+  try {
+    fs.statSync(key)
+    fs.statSync(cert)
+  } catch (e) {
+    sslError(`Certificates was not found: ${key} or ${cert}. Please review: https://github.com/slavaGanzin/http2-server#ssl-certificates`)
+    process.exit(0)
+  }
   return Promise.resolve({
     clientKey:   fs.readFileSync(key, 'utf8'),
     certificate: fs.readFileSync(cert, 'utf8')
