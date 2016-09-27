@@ -20,8 +20,9 @@ http2-server [path] [options]
 
     -h, --help                  output usage information
     -V, --version               output the version number
-    -p, --port [8080]           port to use
     -a, --address [127.0.0.1]   address to use
+    -p, --ssl-port [4443]       ssl port to use
+    --http-port [8080]          http port which redirects to ssl port
     -c, --cache                 enable cache
     -m, --maxAge [0]            cache maxAge in ms acceptable string
         https://github.com/zeit/ms

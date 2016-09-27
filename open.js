@@ -2,7 +2,7 @@ const opn         = require('opn')
 const errorOpn    = require('debug')('http2:error:opn')
 
 const {
-  open, protocol, address, port
+  open, URL
 } = require('./options')
 
 module.exports = () => {
@@ -11,6 +11,6 @@ module.exports = () => {
   const app = typeof open == 'string'
     ? open.match(/(\w+|-+\w+)/g) : null
   
-  opn(`${protocol}://${address}:${port}`, { app })
+  opn(URL, { app })
   .catch(error => errorOpn(error.toString().replace('ENOENT','')))
 }

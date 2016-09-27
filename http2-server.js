@@ -2,11 +2,11 @@
 'use strict'
 process.env.DEBUG = process.env.DEBUG || 'http2,http2:error*,ssl:certificate*'
 
-const app         = require('express')()
-const debugLog    = require('debug')('http2')
+const app      = require('express')()
+const debugLog = require('debug')('http2')
 
 const {
-  port, address, silent, push, cache, maxAge, trustCert,
+  sslPort, httpPort, address, silent, push, cache, maxAge, trustCert,
   log, cors, ssl, gzip, autoindex, index, URL, serverType, generateCert,
   args: [
     path = '.'
@@ -32,8 +32,12 @@ app.use(require('serve-static')(path, { index, maxAge, cacheControl: !!cache }))
 
 if (autoindex)    app.use(require('serve-index')(path))
 
-require('./ssl').then( options =>
+require('./ssl').then( options => {
   require('spdy')
     .createServer(options, app)
-    .listen(port, address, onServerStart)
-)
+    .listen(sslPort, address, onServerStart)
+    
+  require('express')()
+    .use(require('redirect-https')({port: sslPort}))
+    .listen(httpPort)
+})

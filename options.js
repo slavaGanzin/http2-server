@@ -4,13 +4,17 @@ const opts = commander
   .version(require('./package.json').version)
   .usage('[path] [options]')
   .option(
-    '-p, --port [8080]',
-    'port to use',
-    8080
-  ).option(
     '-a, --address [127.0.0.1]',
     'address to use',
     '127.0.0.1'
+  ).option(
+    '-p, --ssl-port [4443]',
+    'ssl port to use',
+    4443
+  ).option(
+    '--http-port [8080]',
+    'http port which redirects to ssl port',
+    8080
   ).option(
     '-c, --cache',
     'enable cache'
@@ -75,7 +79,7 @@ const opts = commander
 
 opts.protocol   = opts.ssl ? 'https' : 'http'
 opts.serverType = opts.ssl ? 'Http2/Https' : 'Http'
-opts.URL        = `${opts.protocol}://${opts.address}:${opts.port}`
+opts.URL        = `${opts.protocol}://${opts.address}:${opts.sslPort}`
 
 module.exports = opts
 // -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com
