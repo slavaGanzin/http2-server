@@ -7,13 +7,16 @@ const {
 } = require('./options')
 
 const save = ( { certificate, clientKey, authority } ) => {
-  fs.mkdirSync(require('path').dirname(key))
+  const dir = require('path').dirname(key)
+  fs.mkdirSync(dir)
   fs.writeFileSync(key,  clientKey)
   log(`generated ${key}`)
   fs.writeFileSync(cert, certificate)
   log(`generated ${cert}`)
-  fs.writeFileSync(ca, authority)
-  log(`generated ${ca}`)
+  Object.keys(authority).forEach(name => {
+    fs.writeFileSync(`${dir}/ca.${name}.pem`, authority[name])
+    log(`generated ${dir}/ca.${name}.pem`)
+  })
 }
 
 const generate = () => new Promise((resolve, reject) =>
