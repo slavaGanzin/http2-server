@@ -19,10 +19,16 @@ if (trustCert) return require('./generateCertificates').trust()
 const onServerStart = () => {
   debugLog(`${serverType} server started on ${URL}`)
   debugLog(`Serve static from ${path}`)
+  if (ssl)
   
   require('./open')()
 }
 
+const startRedirectServer = () =>
+  require('express')()
+    .use(require('redirect-https')({port: sslPort}))
+    .listen(httpPort, () => debugLog(`Http redirects to https from ${httpPort}`))
+    
 if (cors)         app.use(require('cors')())
 if (gzip)         app.use(require('compression')())
 if (ssl && push)  require('./naivePush').map(x => app.use(x))
@@ -35,9 +41,7 @@ if (autoindex)    app.use(require('serve-index')(path))
 require('./ssl').then( options => {
   require('spdy')
     .createServer(options, app)
-    .listen(sslPort, address, onServerStart)
-    
-  require('express')()
-    .use(require('redirect-https')({port: sslPort}))
-    .listen(httpPort)
+    .listen(ssl ? sslPort : httpPort, address, onServerStart)
+
+  if(ssl) startRedirectServer()
 })

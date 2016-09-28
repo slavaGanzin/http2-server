@@ -79,7 +79,7 @@ const opts = commander
 
 opts.protocol   = opts.ssl ? 'https' : 'http'
 opts.serverType = opts.ssl ? 'Http2/Https' : 'Http'
-opts.URL        = `${opts.protocol}://${opts.address}:${opts.sslPort}`
+opts.URL        = `${opts.protocol}://${opts.address}:${opts.ssl ? opts.sslPort : opts.httpPort}`
 
 module.exports = opts
 // -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com
