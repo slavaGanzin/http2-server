@@ -44,7 +44,7 @@ const opts = commander
     'suppress log messages from output'
   ).option(
     '--cors',
-    'enable CORS via the Access-Control-Allow-Origin header'
+    'enable CORS'
   ).option(
     '-S, --no-ssl',
     `disable https
