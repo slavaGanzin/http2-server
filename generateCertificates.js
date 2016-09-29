@@ -1,7 +1,8 @@
 const pem = require('pem')
 const fs  = require('fs')
-const log = require('debug')('ssl:certificate')
+const generated = require('debug')('ssl:certificate:generate')
 const error = require('debug')('ssl:certificate:error')
+const trusted = require('debug')('ssl:certificate:trust')
 const {
   key, cert, ca, address, trustCert
 } = require('./options')
@@ -10,12 +11,12 @@ const save = ( { certificate, clientKey, authority } ) => {
   const dir = require('path').dirname(key)
   fs.mkdirSync(dir)
   fs.writeFileSync(key,  clientKey)
-  log(`generated ${key}`)
+  generated(key)
   fs.writeFileSync(cert, certificate)
-  log(`generated ${cert}`)
+  generated(cert)
   Object.keys(authority).forEach(name => {
     fs.writeFileSync(`${dir}/ca.${name}.pem`, authority[name])
-    log(`generated ${dir}/ca.${name}.pem`)
+    generated(`${dir}/ca.${name}.pem`)
   })
 }
 
@@ -44,7 +45,7 @@ const trust = () => new Promise((resolve, reject) => {
   require('child_process').execSync(
     `certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n ${cert} -i ${cert}`
   )
-  log(`trusted ${cert}`)
+  trusted(cert)
 })
 .then(() => process.exit())
                                                       
