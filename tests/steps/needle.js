@@ -2,7 +2,7 @@ const { expect }  = require('chai')
 const needle      = require('needle')
 const yadda       = require('yadda')
 const { English } = yadda.localisation
-const { spawn }   = require('child_process')
+const { spawn, execSync }   = require('child_process')
 const debug       = require('debug')
 const R           = require('ramda')
 const dictionary  = new yadda.Dictionary()
@@ -23,6 +23,14 @@ module.exports = English.library(dictionary)
     debug('test:server:stderr')(x)
     if (R.test(/server started/gim, x)) return next()
    })
+})
+.given('generate certs', (next) => {
+  try {
+    execSync('./http2-server --generate-cert')
+    next()
+  } catch(e) {
+    next(e)
+  }
 })
 .then('request $url', (url, next) => {
   needle.get(url, {rejectUnauthorized: false}, (error, response) => {
