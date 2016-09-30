@@ -54,7 +54,7 @@ module.exports = English.library(dictionary)
   })
 })
 .then('response $path has $reg', (path, reg, next) => {
-  expect(R.path(R.split('.',path), _response).toString('utf8')).to.match(new RegExp(reg, 'gim'))
+  expect(R.defaultTo('_EMPTY_', R.path(R.split('.',path), _response)).toString('utf8')).to.match(new RegExp(reg, 'gim'))
   next()
 })
 .then('shutdown server', next => _server.kill() && next() )
