@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict'
 process.env.DEBUG = process.env.DEBUG || 'http2,http2:error*,ssl:certificate*'
-
 const app      = require('express')()
 const debugLog = require('debug')('http2')
 

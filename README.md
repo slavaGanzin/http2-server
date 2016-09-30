@@ -57,10 +57,11 @@ http2-server [path] [options]
 
 #Usage as a dependency in your project
 
-```AsciiDoc
+```
   npm install static-http2-server --save
 ```
-package.json
+
+package.json:
 ```json
 ...
   "scripts": {
