@@ -1,4 +1,4 @@
 language: node_js
 node_js:
   - "6"
-script: npm run-script test-all
+script: DEBUG=* npm run test-all
