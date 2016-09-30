@@ -1,6 +1,6 @@
 *Stop bundling your css/js and enjoy [HTTP2](https://http2.github.io/) and [PUSH_PROMISE](http://httpwg.org/specs/rfc7540.html#PUSH_PROMISE)*
 
-![](https://travis-ci.org/slavaGanzin/http2-server)
+[![Build Status](https://travis-ci.org/slavaGanzin/http2-server.svg?branch=master)](https://travis-ci.org/slavaGanzin/http2-server)
 [![](https://david-dm.org/slavaGanzin/http2-server.svg)](https://david-dm.org/slavaGanzin/http2-server)
 
 #http2-server
