@@ -20,7 +20,7 @@ let _response = null
 module.exports = English.library(dictionary)
 
 .given('spawn $args', (args, next) => {
-  _server = spawn('./http2-server', args.split(' '), {env: {}})
+  _server = spawn('./http2-server', args.split(' '), {env: {DEBUG: 'http2*'}})
   _server.on('close', debug('http2:close'))
   _server.stdout.on('data', x =>
     debug('http2:stdout')(x.toString('utf8')))
