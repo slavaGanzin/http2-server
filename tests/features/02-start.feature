@@ -13,7 +13,7 @@ Feature: check server started
     Then GET https://127.0.0.1:4444 ECONNREFUSED
     Then GET http://127.0.0.1:8080 ECONNREFUSED
     Then GET http://127.0.0.1:8081 200
-    And shutdown server
+    Then shutdown server
     
   Scenario: finally shutdown
     Then shutdown server

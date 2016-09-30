@@ -14,18 +14,18 @@ const dictionary  = new yadda.Dictionary()
   .define('status', /(.+)/)
   .define('method', /(GET|POST|PUT|HEAD)/, (method, cb) => cb(null, method.toLowerCase()))
 
-let server = null
-let response = null
+let _server = null
+let _response = null
 
 module.exports = English.library(dictionary)
 
 .given('spawn $args', (args, next) => {
-  server = spawn('./http2-server', args.split(' '), {env: {}})
-  server.on('close', debug('http2:close'))
-  server.stdout.on('data', x =>
+  _server = spawn('./http2-server', args.split(' '), {env: {}})
+  _server.on('close', debug('http2:close'))
+  _server.stdout.on('data', x =>
     debug('http2:stdout')(x.toString('utf8')))
     
-  server.stderr.on('data', x => {
+  _server.stderr.on('data', x => {
     x = x.toString('utf8')
     debug('http2:stderr')(x)
     if (R.test(/server started/gim, x)) return next()
@@ -49,7 +49,12 @@ module.exports = English.library(dictionary)
     error
       ? expect(error.toString()).to.match(new RegExp(status))
       : expect(parseInt(response.statusCode)).to.be.equal(parseInt(status))
+    _response = response
     next()
   })
 })
-.then('shutdown server', next => server.kill() && next() )
+.then('response $path has $reg', (path, reg, next) => {
+  expect(R.path(R.split('.',path), _response).toString('utf8')).to.match(new RegExp(reg, 'gim'))
+  next()
+})
+.then('shutdown server', next => _server.kill() && next() )
