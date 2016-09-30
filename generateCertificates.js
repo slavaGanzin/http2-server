@@ -48,6 +48,6 @@ const trust = () => new Promise((resolve, reject) => {
   trusted(cert)
 })
 .then(() => process.exit())
-                                                      
+
 
 module.exports = {generate, trust}
