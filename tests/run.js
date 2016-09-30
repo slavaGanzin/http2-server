@@ -33,4 +33,5 @@ if (all)
 run()
 .then(R.evolve({'tests': R.map(x=>`${testPath}${x}.feature`)}))
 .then( ({tests}) => `./node_modules/.bin/mocha --timeout 10000 --tests='${JSON.stringify(tests)}' --reporter spec tests/all.js `)
-.then(x => execSync(x, {stdio:[0,1,2]}));
+.then(x => execSync(x, {stdio:[0,1,2]}))
+.catch(() => process.exit(1))

@@ -12,6 +12,7 @@ const dictionary  = new yadda.Dictionary()
   .define('args', /(.*)/, (args, cb) => cb(null, defaultArgs + args))
   .define('url', /(.+)/)
   .define('status', /(.+)/)
+  .define('method', /(GET|POST|PUT|HEAD)/, (method, cb) => cb(null, method.toLowerCase()))
 
 let server = null
 let response = null
@@ -42,8 +43,8 @@ module.exports = English.library(dictionary)
   execSync('rm -rf `dirname '+key+'`')
   next()
 })
-.then('request $url $status', (url, status, next) => {
-  needle.get(url, {rejectUnauthorized: false}, (error, response) => {
+.then('$method $url $status', (method, url, status, next) => {
+  needle[method](url, {rejectUnauthorized: false}, (error, response) => {
     debug('needle', error, response)
     error
       ? expect(error.toString()).to.match(new RegExp(status))
