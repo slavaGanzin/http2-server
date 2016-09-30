@@ -3,4 +3,4 @@ node_js:
   - "6"
 env:
   DEBUG: '*'
-script: npm run test-all
+script: which node
