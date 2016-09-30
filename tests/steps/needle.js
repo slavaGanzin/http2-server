@@ -20,7 +20,7 @@ let _response = null
 module.exports = English.library(dictionary)
 
 .given('spawn $args', (args, next) => {
-  _server = spawn('node ./http2-server', args.split(' '), {env: {DEBUG: 'http2'}})
+  _server = spawn('`which node` ./http2-server', args.split(' '), {env: {DEBUG: 'http2'}})
   _server.on('close', debug('http2:close'))
   _server.stdout.on('data', x =>
     debug('http2:stdout')(x.toString('utf8')))
@@ -33,7 +33,7 @@ module.exports = English.library(dictionary)
 })
 .given('exec $args', (args, next) => {
   try {
-    execSync(R.tap(debug('http2:exec'), `node ./http2-server ${args}`))
+    execSync(R.tap(debug('http2:exec'), `\`which node\` ./http2-server ${args}`))
     next()
   } catch(e) {
     throw new Error(e.stderr.toString('utf8'))
