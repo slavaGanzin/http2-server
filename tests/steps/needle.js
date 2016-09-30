@@ -5,14 +5,18 @@ const { English } = yadda.localisation
 const { spawn, execSync }   = require('child_process')
 const debug       = require('debug')
 const R           = require('ramda')
+const [key, cert] = ['tests/certs/key.pem', 'tests/certs/cert.pem']
+const defaultArgs = `--key ${key} --cert ${cert} `
+
 const dictionary  = new yadda.Dictionary()
-  .define('args', /(.*)/)
+  .define('args', /(.*)/, (args, cb) => cb(null, defaultArgs + args))
   .define('url', /(.*)/)
 
 let server = null
 
 module.exports = English.library(dictionary)
-.given('launch server $args', (args, next) => {
+
+.given('spawn $args', (args, next) => {
   server = spawn('./http2-server', args.split(' '))
   server.on('close', debug('test:server:close'))
   server.stdout.on('data', x =>
@@ -24,13 +28,17 @@ module.exports = English.library(dictionary)
     if (R.test(/server started/gim, x)) return next()
    })
 })
-.given('generate certs', (next) => {
+.given('exec $args', (args, next) => {
   try {
-    execSync('./http2-server --generate-cert')
+    execSync(R.tap(debug('test:server:exec'), `./http2-server ${args}`))
     next()
   } catch(e) {
-    next(e)
+    throw new Error(e.stderr.toString('utf8'))
   }
+})
+.given('remove certificates if exists', next => {
+  execSync('rm -rf `dirname '+key+'`')
+  next()
 })
 .then('request $url', (url, next) => {
   needle.get(url, {rejectUnauthorized: false}, (error, response) => {

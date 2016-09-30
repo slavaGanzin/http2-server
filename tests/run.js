@@ -24,5 +24,5 @@ const run = all
 
 run()
 .then(R.evolve({'tests': R.map(x=>`${testPath}${x}.feature`)}))
-.then( ({tests}) => `DEBUG=http2*,test*  ./node_modules/.bin/mocha --timeout 10000 --tests='${JSON.stringify(tests)}' --reporter spec tests/all.js `)
+.then( ({tests}) => `DEBUG=http2*,test*,ssl*  ./node_modules/.bin/mocha --timeout 10000 --tests='${JSON.stringify(tests)}' --reporter spec tests/all.js `)
 .then(x => execSync(x, {stdio:[0,1,2]}));

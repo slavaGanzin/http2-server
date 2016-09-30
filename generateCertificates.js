@@ -1,7 +1,10 @@
 const pem = require('pem')
 const fs  = require('fs')
 const generated = require('debug')('ssl:certificate:generate')
-const error = require('debug')('ssl:certificate:error')
+const error = x => {
+  require('debug')('ssl:certificate:error')(x)
+  process.exit(1)
+}
 const trusted = require('debug')('ssl:certificate:trust')
 const {
   key, cert, ca, address, trustCert

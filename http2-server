@@ -13,14 +13,13 @@ const {
   ]
 } = require('./options')
 
+
 if (generateCert) return require('./generateCertificates').generate()
 if (trustCert) return require('./generateCertificates').trust()
 
 const onServerStart = () => {
   debugLog(`${serverType} server started on ${URL}`)
   debugLog(`Serve static from ${path}`)
-  if (ssl)
-  
   require('./open')()
 }
 
