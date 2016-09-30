@@ -2,5 +2,5 @@ language: node_js
 node_js:
   - "6"
 env:
-  DEBUG: '*'
+  DEBUG: 'http2'
 script: npm test -- --all
