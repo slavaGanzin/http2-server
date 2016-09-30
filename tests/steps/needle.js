@@ -31,6 +31,7 @@ module.exports = English.library(dictionary)
     if (R.test(/server started/gim, x)) return next()
    })
 })
+
 .given('exec $args', (args, next) => {
   try {
     execSync(R.tap(debug('http2:exec'), `./http2-server ${args}`))
@@ -43,9 +44,12 @@ module.exports = English.library(dictionary)
   execSync('rm -rf `dirname '+key+'`')
   next()
 })
+
 .then('$method $url $status', (method, url, status, next) => {
-  needle[method](url, {rejectUnauthorized: false}, (error, response) => {
-    debug('needle', error, response)
+  needle[method](url, {
+    compressed: true,
+    rejectUnauthorized: false
+  }, (error, response) => {
     error
       ? expect(error.toString()).to.match(new RegExp(status))
       : expect(parseInt(response.statusCode)).to.be.equal(parseInt(status))
@@ -53,7 +57,10 @@ module.exports = English.library(dictionary)
     next()
   })
 })
+
 .then('response $path has $reg', (path, reg, next) => {
+  debug('test:body')(_response.body)
+  debug('test:headers')(_response.headers)
   expect(R.defaultTo('_EMPTY_', R.path(R.split('.',path), _response)).toString('utf8')).to.match(new RegExp(reg, 'gim'))
   next()
 })
