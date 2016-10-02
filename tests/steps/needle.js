@@ -19,7 +19,8 @@ let _response = null
 
 module.exports = English.library(dictionary)
 
-.given('spawn $args', (args, next) => {
+.define('spawn $args', (args, next) => {
+  debug('http2:args')(args)
   _server = spawn('./http2-server', args.split(' '))
   _server.on('close', debug('http2:close'))
   _server.stdout.on('data', x =>
@@ -32,7 +33,7 @@ module.exports = English.library(dictionary)
    })
 })
 
-.given('exec $args', (args, next) => {
+.define('exec $args', (args, next) => {
   try {
     execSync(R.tap(debug('http2:exec'), `./http2-server ${args}`))
     next()
@@ -40,12 +41,12 @@ module.exports = English.library(dictionary)
     throw new Error(e.stderr.toString('utf8'))
   }
 })
-.given('remove certificates if exists', next => {
+.define('remove certificates if exists', next => {
   execSync('rm -rf `dirname '+key+'`')
   next()
 })
 
-.then('$method $url $status', (method, url, status, next) => {
+.define('$method $url $status', (method, url, status, next) => {
   needle[method](url, {
     compressed: true,
     rejectUnauthorized: false
@@ -58,10 +59,13 @@ module.exports = English.library(dictionary)
   })
 })
 
-.then('response $path has $reg', (path, reg, next) => {
+.define('response $path has $reg', (path, reg, next) => {
   debug('test:body')(_response.body)
   debug('test:headers')(_response.headers)
   expect(R.defaultTo('_EMPTY_', R.path(R.split('.',path), _response)).toString('utf8')).to.match(new RegExp(reg, 'gim'))
   next()
 })
-.then('shutdown server', next => _server.kill() && next() )
+.define('shutdown server', next => {
+  if (_server) _server.kill()
+  next()
+})
