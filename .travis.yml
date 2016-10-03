@@ -4,3 +4,7 @@ node_js:
 env:
   DEBUG: 'http2'
 script: npm test -- --all
+notifications:
+  email:
+    on_success: change
+    on_failure: change
