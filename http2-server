@@ -8,7 +8,7 @@ const debugLog = require('debug')('http2')
 
 const {
   sslPort, httpPort, address, silent, push, cache, maxAge, trustCert,
-  log, cors, ssl, gzip, autoindex, index, URL, serverType, generateCert,
+  log, cors, ssl, compression, autoindex, index, URL, serverType, generateCert,
   args: [
     path = '.'
   ]
@@ -30,7 +30,7 @@ const startRedirectServer = () =>
     .listen(httpPort, () => debugLog(`Http redirects to https from ${httpPort}`))
     
 if (cors)         app.use(require('cors')())
-if (gzip)         app.use(require('compression')())
+if (compression)  app.use(require('shrink-ray')())
 if (ssl && push)  require('./naivePush').map(x => app.use(x))
 if (!silent)      app.use(require('morgan')(log))
 

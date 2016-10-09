@@ -65,8 +65,8 @@ const opts = commander
     '--trust-cert',
     'add certificate to trusted (currently linux only)'
   ).option(
-    '-g, --gzip',
-    'enable gzip compression'
+    '-g, --compression',
+    'enable deflate/gzip/brotli/zopfli'
   ).option(
     '-i, --index [index.html]',
     'Specify index file name',
