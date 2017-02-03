@@ -7,5 +7,6 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 
+npm run test-all
 node hooks/updateReadme.js
 git add README.md

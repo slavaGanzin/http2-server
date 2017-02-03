@@ -72,6 +72,10 @@ const opts = commander
     'Specify index file name',
     'index.html'
   ).option(
+    '--proxy [https://127.0.0.1:4443]',
+    `Proxies all requests which can\'t be resolved locally to the given url.
+e.g.: -P http://someurl.com`
+  ).option(
     '-I, --no-autoindex',
     'Disable auto index'
   ).parse(process.argv)
@@ -82,6 +86,5 @@ opts.serverType = opts.ssl ? 'Http2/Https' : 'Http'
 opts.URL        = `${opts.protocol}://${opts.address}:${opts.ssl ? opts.sslPort : opts.httpPort}`
 
 module.exports = opts
-// -P or --proxy Proxies all requests which can't be resolved locally to the given url. e.g.: -P http://someurl.com
 // http://stackoverflow.com/questions/31100474/accessing-non-ssl-socket-io-nodejs-server-from-ssl-apache-request-same-host
 // -r or --robots Provide a /robots.txt (whose content defaults to 'User-agent: *\nDisallow: /')
