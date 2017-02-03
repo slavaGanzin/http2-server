@@ -9,7 +9,7 @@ const [pushDebug, pushError] = [
 let fileByRefferer = {}
 
 const servePush = (req, res, next) => {
-  if (fileByRefferer[req.url]) {
+  if (fileByRefferer[req.url] && res.push) {
     fileByRefferer[req.url].forEach(file => {
       const stream = res.push(file, {})
       fs.readFile(path+'/'+file, 'utf8', (e, content) => {
