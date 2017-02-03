@@ -30,7 +30,7 @@ module.exports = English.library(dictionary)
     x = x.toString('utf8')
     debug('http2:stderr')(x)
     if (R.test(/server started/gim, x)) return next()
-   })
+  })
 })
 
 .define('exec $args', (args, next) => {

@@ -1,7 +1,7 @@
 *Stop bundling your css/js and enjoy [HTTP2](https://http2.github.io/) and [PUSH_PROMISE](http://httpwg.org/specs/rfc7540.html#PUSH_PROMISE)*
 
 [![Build Status](https://travis-ci.org/slavaGanzin/http2-server.svg?branch=master)](https://travis-ci.org/slavaGanzin/http2-server)
-[![](https://david-dm.org/slavaGanzin/http2-server.svg)](https://david-dm.org/slavaGanzin/http2-server)
+<!-- [![](https://david-dm.org/slavaGanzin/http2-server.svg)](https://david-dm.org/slavaGanzin/http2-server) -->
 
 #http2-server
 Simple HTTP2/SPDY server similiar to [http-server](https://github.com/indexzero/http-server) using [express](https://github.com/expressjs/express) & [node-spdy](https://github.com/indutny/node-spdy)
@@ -69,7 +69,7 @@ package.json:
   "scripts": {
     "start": "node_modules/.bin/http2-server -o",
   },
-...  
+...
 ```
 
 #SSL certificates

@@ -73,7 +73,7 @@ const opts = commander
     'index.html'
   ).option(
     '--proxy [https://127.0.0.1:4443]',
-    `Proxies all requests which can\'t be resolved locally to the given url.
+    `Proxies all requests which can't be resolved locally to the given url.
 e.g.: -P http://someurl.com`
   ).option(
     '-I, --no-autoindex',
@@ -81,9 +81,9 @@ e.g.: -P http://someurl.com`
   ).parse(process.argv)
   
 
-opts.protocol   = opts.ssl ? 'https' : 'http'
+opts.protocol = opts.ssl ? 'https' : 'http'
 opts.serverType = opts.ssl ? 'Http2/Https' : 'Http'
-opts.URL        = `${opts.protocol}://${opts.address}:${opts.ssl ? opts.sslPort : opts.httpPort}`
+opts.URL = `${opts.protocol}://${opts.address}:${opts.ssl ? opts.sslPort : opts.httpPort}`
 
 module.exports = opts
 // http://stackoverflow.com/questions/31100474/accessing-non-ssl-socket-io-nodejs-server-from-ssl-apache-request-same-host

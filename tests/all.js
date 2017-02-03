@@ -9,7 +9,7 @@ const runTest = (file) =>
      const yadda = Yadda.createInstance(libraries)
 
      scenarios(feature.scenarios, (scenario) =>
-       steps(scenario.steps, (x,y) => yadda.run(x,y) ))
+       steps(scenario.steps, (x,y) => yadda.run(x,y)))
    })
 
 Yadda.plugins.mocha.StepLevelPlugin.init()

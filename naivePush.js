@@ -2,7 +2,7 @@ const debug       = require('debug')
 const fs          = require('fs')
 const {args:[path = '.']}      = require('./options')
 
-const [pushDebug,    pushError] = [
+const [pushDebug, pushError] = [
   'http2:push', 'http2:push:error'
 ].map(debug)
 
@@ -10,7 +10,7 @@ let fileByRefferer = {}
 
 const servePush = (req, res, next) => {
   if (fileByRefferer[req.url]) {
-    fileByRefferer[req.url].forEach( file => {
+    fileByRefferer[req.url].forEach(file => {
       const stream = res.push(file, {})
       fs.readFile(path+'/'+file, 'utf8', (e, content) => {
         e && pushError(e)

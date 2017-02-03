@@ -7,13 +7,13 @@ const error = x => {
 }
 const trusted = require('debug')('ssl:certificate:trust')
 const {
-  key, cert, ca, address, trustCert
+  key, cert, address, trustCert
 } = require('./options')
 
-const save = ( { certificate, clientKey, authority } ) => {
+const save = ({ certificate, clientKey, authority }) => {
   const dir = require('path').dirname(key)
   fs.mkdirSync(dir)
-  fs.writeFileSync(key,  clientKey)
+  fs.writeFileSync(key, clientKey)
   generated(key)
   fs.writeFileSync(cert, certificate)
   generated(cert)
