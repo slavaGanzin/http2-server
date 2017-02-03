@@ -14,7 +14,7 @@ Feature: check response
                            
   Scenario: check main.css
     Then GET https://127.0.0.1:4443/main.css 200
-    Then response body has h1 {\n  color: #262422\n}\n
+    Then response body has h1 { color: white }\nbody { background: #262422 }
     
   Scenario: check http redirect
     Then GET http://127.0.0.1:8080 200
