@@ -3,7 +3,8 @@ const fs  = require('fs')
 const generated = require('debug')('ssl:certificate:generate')
 const error = x => {
   require('debug')('ssl:certificate:error')(x)
-  process.exit(1)
+  const ERROR = 1
+  process.exit(ERROR)
 }
 const trusted = require('debug')('ssl:certificate:trust')
 const {
@@ -23,34 +24,35 @@ const save = ({ certificate, clientKey, authority }) => {
   })
 }
 
-const generate = () => new Promise((resolve, reject) =>
- pem.createCertificate({
-   commonName: `Certificate Authority ${address}`
- }, (e, authority) => {
-   if (e) return reject(e)
-   pem.createCertificate({
-     commonName: address,
-     serviceKey: authority.serviceKey,
-     serviceCertificate: authority.certificate,
-     serial: Date.now()
-   }, (e, {certificate, clientKey}) => {
-     if (e) return reject(e)
-     resolve({certificate, clientKey, authority})
-   })
- })
-)
-.then(save)
-.then(trust)
-.catch(error)
-
-const trust = () => new Promise((resolve, reject) => {
+const trust = () => new Promise((resolve) => {
   if (!trustCert) return resolve()
   require('child_process').execSync(
     `certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n ${cert} -i ${cert}`
   )
   trusted(cert)
 })
-.then(() => process.exit())
+  .then(() => process.exit())
+  
+const generate = () => new Promise((resolve, reject) =>
+  pem.createCertificate({
+    commonName: `Certificate Authority ${address}`
+  }, (e, authority) => {
+    if (e) return reject(e)
+    pem.createCertificate({
+      commonName: address,
+      serviceKey: authority.serviceKey,
+      serviceCertificate: authority.certificate,
+      serial: Date.now()
+    }, (e2, {certificate, clientKey}) => {
+      if (e2) return reject(e2)
+      resolve({certificate, clientKey, authority})
+    })
+  })
+)
+  .then(save)
+  .then(trust)
+  .catch(error)
+
 
 
 module.exports = {generate, trust}

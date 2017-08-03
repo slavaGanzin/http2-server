@@ -30,15 +30,21 @@ const startRedirectServer = () =>
     .use(require('redirect-https')({port: sslPort}))
     .listen(httpPort, () => debugLog(`Http redirects to https from ${httpPort}`))
     
-if (cors)         app.use(require('cors')())
-if (compression)  app.use(require('shrink-ray')())
-if (ssl && push)  require('./naivePush').map(x => app.use(x))
-if (!silent)      app.use(require('morgan')(log))
-
+if (cors)
+  app.use(require('cors')())
   
-app.use(require('serve-static')(path, { index, maxAge, cacheControl: !!cache }))
+if (compression)
+  app.use(require('shrink-ray')())
+  
+if (ssl && push)
+  require('./naivePush').map(x => app.use(x))
+  
+if (!silent)
+  app.use(require('morgan')(log))
+  
+app.use(require('serve-static')(path, { index, maxAge, cacheControl: Boolean(cache) }))
 
-if (proxy)
+if (proxy) {
   app.use((req, res) =>
     require('http-proxy').createProxyServer({
       secure: false,
@@ -46,10 +52,12 @@ if (proxy)
       changeOrigin: true,
     }).web(req, res, { target: proxy })
   )
+}
   
-if (autoindex)    app.use(require('serve-index')(path))
+if (autoindex)
+  app.use(require('serve-index')(path))
 
-require('./ssl').then( options => {
+require('./ssl').then(options => {
   
   require('spdy')
     .createServer(options, app)
