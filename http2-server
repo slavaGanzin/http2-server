@@ -15,10 +15,6 @@ const {
   ]
 } = require('./options')
 
-
-if (generateCert) return require('./generateCertificates').generate()
-if (trustCert) return require('./generateCertificates').trust()
-
 const onServerStart = () => {
   debugLog(`${serverType} server started on ${URL}`)
   debugLog(`Serve static from ${path}`)
@@ -29,6 +25,13 @@ const startRedirectServer = () =>
   require('express')()
     .use(require('redirect-https')({port: sslPort}))
     .listen(httpPort, () => debugLog(`Http redirects to https from ${httpPort}`))
+
+
+if (generateCert)
+  return require('./generateCertificates').generate()
+  
+if (trustCert)
+  return require('./generateCertificates').trust()
     
 if (cors)
   app.use(require('cors')())
@@ -58,10 +61,10 @@ if (autoindex)
   app.use(require('serve-index')(path))
 
 require('./ssl').then(options => {
-  
   require('spdy')
     .createServer(options, app)
     .listen(ssl ? sslPort : httpPort, address, onServerStart)
 
-  if(ssl) startRedirectServer()
+  if(ssl)
+    startRedirectServer()
 })
