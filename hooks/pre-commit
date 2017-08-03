@@ -10,4 +10,3 @@
 npm run test-all
 node hooks/updateReadme.js
 git add README.md
-git push
