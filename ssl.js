@@ -30,8 +30,10 @@ const getOptions = ({certificate, clientKey}) => {
     strictSSL: false
   }
 }
-    
+
 module.exports =
-  readCertificates()
+  (ssl
+    ? readCertificates()
+    : Promise.resolve({certificate: null, clientKey: null}))
   .then(getOptions)
   .catch(sslError)
