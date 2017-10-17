@@ -2,7 +2,7 @@
 
 Feature: check response
   Scenario: start server
-    Given spawn --ssl-port 4443 --http-port 8080
+    Given ./http2-server --ssl-port 4443 --http-port 8080
     
   Scenario: check index.html
     Then GET https://127.0.0.1:4443 200
@@ -22,7 +22,7 @@ Feature: check response
     
   Scenario: check script.js with http
     Given shutdown server
-    Then spawn --ssl-port 4443 --http-port 8080 --no-ssl
+    Then ./http2-server --ssl-port 4443 --http-port 8080 --no-ssl
     Then GET http://127.0.0.1:8080/script.js 200
     Then response body has console.log\(\'hello http2\'\)
     

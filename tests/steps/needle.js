@@ -20,7 +20,7 @@ const test = {
   log: null
 }
 module.exports = English.library(dictionary)
-  .define('spawn $args', (args, next) => {
+  .define('./http2-server $args', (args, next) => {
     test.log = []
     debug('test:args')(args)
     test.server = spawn('./http2-server', args.split(' '), {DEBUG:'http2*'})
@@ -29,7 +29,7 @@ module.exports = English.library(dictionary)
       test.log.push(x.toString('utf8'))
       debug('http2:stdout')(x.toString('utf8'))
     })
-      
+
     test.server.stderr.on('data', x => {
       x = x.toString('utf8')
       debug('http2:stderr')(x)
