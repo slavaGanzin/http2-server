@@ -4,9 +4,9 @@ const opts = commander
   .version(require('./package.json').version)
   .usage('[path] [options]')
   .option(
-    '-a, --address [127.0.0.1]',
+    '-a, --address [0.0.0.0]',
     'address to use',
-    '127.0.0.1'
+    '0.0.0.0'
   ).option(
     '-p, --ssl-port [4443]',
     'ssl port to use',
