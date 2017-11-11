@@ -3,8 +3,9 @@
 
 process.env.DEBUG = process.env.DEBUG || 'http2,http2:error*,ssl:certificate*'
 
-const app      = require('express')()
-const debugLog = require('debug')('http2')
+const app       = require('express')()
+const debugLog  = require('debug')('http2')
+const {resolve} = require('path')
 
 const {
   sslPort, httpPort, address, silent, push, cache, maxAge, trustCert,
@@ -17,7 +18,7 @@ const {
 
 const onServerStart = () => {
   debugLog(`${serverType} server started on ${URL}`)
-  debugLog(`Serve static from ${path}`)
+  debugLog(`Serve static from ${resolve(path)}`)
   require('./open')()
 }
 
