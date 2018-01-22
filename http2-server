@@ -30,23 +30,30 @@ const startRedirectServer = () =>
 
 if (generateCert)
   return require('./generateCertificates').generate()
-  
+
 if (trustCert)
   return require('./generateCertificates').trust()
-    
+
 if (cors)
   app.use(require('cors')())
-  
+
 if (compression)
   app.use(require('shrink-ray')())
-  
+
 if (ssl && push)
   require('./naivePush').map(x => app.use(x))
-  
+
 if (!silent)
   app.use(require('morgan')(log))
-  
-app.use(require('serve-static')(path, { index, maxAge, cacheControl: Boolean(cache) }))
+
+app.use(require('serve-static')(path, {
+  index,
+  maxAge,
+  cacheControl: Boolean(cache || maxAge),
+  setHeaders: (res, path, stat) => {
+    if (!cache) res.set('Cache-Control', 'no-cache')
+  }
+}))
 
 if (proxy) {
   app.use((req, res) =>
@@ -57,7 +64,7 @@ if (proxy) {
     }).web(req, res, { target: proxy })
   )
 }
-  
+
 if (autoindex)
   app.use(require('serve-index')(path))
 
