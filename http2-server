@@ -46,14 +46,15 @@ if (ssl && push)
 if (!silent)
   app.use(require('morgan')(log))
 
+app.use((req, res, next) => {
+  if (!cache) res.set('Cache-Control', 'no-cache')
+  next()
+})
+
 app.use(require('serve-static')(path, {
-  index,
-  maxAge,
-  cacheControl: Boolean(cache || maxAge),
-  setHeaders: (res, path, stat) => {
-    if (!cache) res.set('Cache-Control', 'no-cache')
-  }
+  index, maxAge, cacheControl: Boolean(cache || maxAge)
 }))
+
 
 if (proxy) {
   app.use((req, res) =>
