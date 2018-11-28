@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict'
 
 process.env.DEBUG = process.env.DEBUG || 'http2,http2:error*,ssl:certificate*'
 
