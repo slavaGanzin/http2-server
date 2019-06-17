@@ -37,7 +37,7 @@ if (cors)
   app.use(require('cors')())
 
 if (compression)
-  app.use(require('shrink-ray')())
+  app.use(require('shrink-ray-current')())
 
 if (ssl && push)
   require('./naivePush').map(x => app.use(x))
