@@ -13,7 +13,10 @@ const {
 
 const save = ({ certificate, clientKey, authority }) => {
   const dir = require('path').dirname(key)
-  fs.mkdirSync(dir)
+  try {
+    fs.mkdirSync(dir)
+  } catch(e) {}
+
   fs.writeFileSync(key, clientKey)
   generated(key)
   fs.writeFileSync(cert, certificate)
@@ -32,7 +35,7 @@ const trust = () => new Promise((resolve) => {
   trusted(cert)
 })
   .then(() => process.exit())
-  
+
 const generate = () => new Promise((resolve, reject) =>
   pem.createCertificate({
     commonName: `Certificate Authority ${address}`
