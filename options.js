@@ -78,8 +78,12 @@ e.g.: -P http://someurl.com`
   ).option(
     '-I, --no-autoindex',
     'Disable auto index'
-  ).parse(process.argv)
-  
+  ).option(
+    '--404 []',
+    '404 error page [blocks proxying]'
+  )
+  .parse(process.argv)
+
 
 opts.protocol = opts.ssl ? 'https' : 'http'
 opts.serverType = opts.ssl ? 'Http2/Https' : 'Http'

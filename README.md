@@ -54,6 +54,7 @@ http2-server [path] [options]
     --proxy [https://127.0.0.1:4443]  Proxies all requests which can't be resolved locally to the given url.
     e.g.: -P http://someurl.com
     -I, --no-autoindex                Disable auto index
+    --404                             404 error page
 
 
 ```

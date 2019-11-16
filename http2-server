@@ -54,6 +54,10 @@ app.use(require('serve-static')(path, {
   index, maxAge, cacheControl: Boolean(cache || maxAge)
 }))
 
+if (require('./options')['404']) {
+  const errorPage = require('fs').readFileSync(require('./options')['404'], 'utf-8')
+  app.use((req, res) => res.status(404).send(errorPage).end())
+}
 
 if (proxy) {
   app.use((req, res) =>
